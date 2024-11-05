@@ -11,10 +11,6 @@ type CheckResult struct {
 	IsDisposable bool `json:"isDisposable"`
 }
 
-type NewParams struct {
-	Domains []string `json:"domains"`
-}
-
 type Service interface {
 	Check(emailOrDomain string) *CheckResult
 }
