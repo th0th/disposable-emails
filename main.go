@@ -1,4 +1,4 @@
-package disposable_emails
+package disposableemail
 
 import (
 	_ "embed"
@@ -19,14 +19,16 @@ type service struct {
 	domainsMap map[string]bool
 }
 
+// New godoc
+// New creates a new disposable e-mail checking service.
 func New() (Service, error) {
+	domainsMap := map[string]bool{}
 	csvReader := csv.NewReader(strings.NewReader(domainsCsvFile))
 	records, err := csvReader.ReadAll()
 	if err != nil {
 		return nil, fmt.Errorf("failed to read domains.csv: %w", err)
 	}
 
-	domainsMap := map[string]bool{}
 	for i := range records {
 		domainsMap[records[i][0]] = true
 	}
@@ -36,6 +38,8 @@ func New() (Service, error) {
 	}, nil
 }
 
+// Check godoc
+// Check checks if the given e-mail address or domain is disposable.
 func (s *service) Check(emailOrDomain string) *CheckResult {
 	domain := emailOrDomain
 

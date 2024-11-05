@@ -1,9 +1,30 @@
-package disposable_emails
+package disposableemail
 
 import (
 	"reflect"
 	"testing"
 )
+
+func TestNew(t *testing.T) {
+	tests := []struct {
+		name    string
+		wantErr bool
+	}{
+		{
+			name:    "success",
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			_, err := New()
+			if (err != nil) != tt.wantErr {
+				t.Errorf("New() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+		})
+	}
+}
 
 func Test_service_Check(t *testing.T) {
 	type fields struct {
@@ -26,7 +47,7 @@ func Test_service_Check(t *testing.T) {
 				},
 			},
 			args: args{
-				emailOrDomain: "user@domain.tld",
+				emailOrDomain: "domain.tld",
 			},
 			want: &CheckResult{
 				IsDisposable: true,
@@ -34,6 +55,34 @@ func Test_service_Check(t *testing.T) {
 		},
 		{
 			name: "non-disposable domain",
+			fields: fields{
+				domainsMap: map[string]bool{
+					"domain.tld": true,
+				},
+			},
+			args: args{
+				emailOrDomain: "domain2.tld",
+			},
+			want: &CheckResult{
+				IsDisposable: false,
+			},
+		},
+		{
+			name: "e-mail address with disposable domain",
+			fields: fields{
+				domainsMap: map[string]bool{
+					"domain.tld": true,
+				},
+			},
+			args: args{
+				emailOrDomain: "user@domain.tld",
+			},
+			want: &CheckResult{
+				IsDisposable: true,
+			},
+		},
+		{
+			name: "e-mail address non-disposable domain",
 			fields: fields{
 				domainsMap: map[string]bool{
 					"domain.tld": true,
