@@ -1,4 +1,4 @@
-package disposable_emails
+package disposableemail
 
 import (
 	"reflect"
@@ -26,7 +26,7 @@ func Test_service_Check(t *testing.T) {
 				},
 			},
 			args: args{
-				emailOrDomain: "user@domain.tld",
+				emailOrDomain: "domain.tld",
 			},
 			want: &CheckResult{
 				IsDisposable: true,
@@ -34,6 +34,34 @@ func Test_service_Check(t *testing.T) {
 		},
 		{
 			name: "non-disposable domain",
+			fields: fields{
+				domainsMap: map[string]bool{
+					"domain.tld": true,
+				},
+			},
+			args: args{
+				emailOrDomain: "domain2.tld",
+			},
+			want: &CheckResult{
+				IsDisposable: false,
+			},
+		},
+		{
+			name: "e-mail address with disposable domain",
+			fields: fields{
+				domainsMap: map[string]bool{
+					"domain.tld": true,
+				},
+			},
+			args: args{
+				emailOrDomain: "user@domain.tld",
+			},
+			want: &CheckResult{
+				IsDisposable: true,
+			},
+		},
+		{
+			name: "e-mail address non-disposable domain",
 			fields: fields{
 				domainsMap: map[string]bool{
 					"domain.tld": true,

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/disposable-emails.iml" filepath="$PROJECT_DIR$/.idea/disposable-emails.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/disposableemail.iml" filepath="$PROJECT_DIR$/.idea/disposableemail.iml" />
     </modules>
   </component>
 </project>
